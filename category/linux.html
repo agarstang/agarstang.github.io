@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>This is not a blog by Adam Garstang - Linux</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">This is not a blog by Adam Garstang </a></h1>
+                <nav><ul>
+                    <li><a href="/pages/about-me.html">About Me</a></li>
+                    <li><a href="/pages/contact-me.html">Contact Me</a></li>
+                    <li class="active"><a href="/category/linux.html">Linux</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/ipxe-sysrescue.html">iPXE Booting Sysrescue Linux</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-06-24T17:30:00">
+                Tue 24 June 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="/author/adam-garstang.html">Adam Garstang</a>
+        </address>
+<p>In <a href="/category/linux.html">Linux</a>. </p>
+<p>tags: <a href="/tag/linux.html">Linux</a><a href="/tag/ipxe.html">iPXE</a><a href="/tag/netboot.html">netboot</a><a href="/tag/sysrescue.html">Sysrescue</a><a href="/tag/ubuntu.html">Ubuntu</a></p>
+</footer><!-- /.post-info --><p>This is a brief walkthrough on how to iPXE netboot Sysrescue Linux over HTTP.
+It is simply a correlation of the information I gathered while searching online.</p>
+<p>In this guide a single Ubuntu 14.04 (hostname: duke) box will have the following roles:
+<em> TFTP Server
+...Legacy systems without iPXE will boot an image from here.
+</em> HTTP Server
+...We will use Ubuntu's default Apache from the repositories.
+...For hosting you config &amp; images files.
+...HTTP is faster than TFTP
+* DHCP Server
+...In most cases this will likely by elsewhere however we will configure
+...ISC DHCP Server here.</p>
+<p>Lets assume DNS is working.</p>
+<h2>Packages</h2>
+<p>Install the necessary packages.</p>
+<div class="highlight"><pre><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">isc</span><span class="o">-</span><span class="n">dhcp</span><span class="o">-</span><span class="n">server</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">tftpd</span><span class="o">-</span><span class="n">hpa</span> <span class="n">apache2</span>
+</pre></div>
+
+
+<h2>Fallback Image</h2>
+<p>Download the fallback iPXE image for legacy network cards.
+<code>wget http://boot.ipxe.org/undionly.kpxe -O /var/lib/tftpboot/undionly.kpxe</code></p>
+<h2>Configure DHCP Server</h2>
+<p>Add the following to your dhcpd.conf file. You can either add it as to a
+subnet declaration of a specific hosts declaration.</p>
+<div class="highlight"><pre>  <span class="k">if</span> <span class="n">exists</span> <span class="n">ipxe</span><span class="p">.</span><span class="n">http</span> <span class="n">and</span> <span class="n">exists</span> <span class="n">user</span><span class="o">-</span><span class="n">class</span> <span class="n">and</span> <span class="n">option</span> <span class="n">user</span><span class="o">-</span><span class="n">class</span> <span class="o">=</span> <span class="s">&quot;iPXE&quot;</span> <span class="p">{</span>
+    <span class="n">filename</span> <span class="s">&quot;http://duke/boot.php&quot;</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">filename</span> <span class="s">&quot;undionly.kpxe&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+</pre></div>
+
+
+<h2>Create iPXE Config</h2>
+<p>In the root of your webserver (default /var/www) create boot.php.
+This will provide menu for selecting your Sysrescue version and allow you
+to differentiate between the any other OS/options you chose to add.
+Content:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre></div></td><td class="code"><div class="highlight"><pre>menu
+item sysrescue64  Boot Linux SysRescue 64-bit
+item sysrescue32  Boot Linux SysRescue 32-bit
+choose target <span class="err">&amp;&amp;</span> goto <span class="cp">${</span><span class="n">target</span><span class="cp">}</span>
+
+:sysrescue64
+echo Booting Sysrescue
+set base-url http://duke/sysrescue
+kernel <span class="cp">${</span><span class="n">base</span><span class="o">-</span><span class="n">url</span><span class="cp">}</span>/rescue64 scandelay=1 nomodeset vga=791 netboot=<span class="cp">${</span><span class="n">base</span><span class="o">-</span><span class="n">url</span><span class="cp">}</span>/sysrcd.dat
+initrd <span class="cp">${</span><span class="n">base</span><span class="o">-</span><span class="n">url</span><span class="cp">}</span>/initram.igz
+boot ||
+# If everything failed, give the user some options
+echo Boot from <span class="cp">${</span><span class="n">base</span><span class="o">-</span><span class="n">url</span><span class="cp">}</span> failed
+prompt --key 0x197e --timeout 2000 Press F12 to investigate || exit
+shell
+exit
+
+:sysrescue32
+echo Booting Sysrescue
+set base-url http://duke/sysrescue
+kernel <span class="cp">${</span><span class="n">base</span><span class="o">-</span><span class="n">url</span><span class="cp">}</span>/rescue32 scandelay=1 nomodeset vga=791 netboot=<span class="cp">${</span><span class="n">base</span><span class="o">-</span><span class="n">url</span><span class="cp">}</span>/sysrcd.dat
+initrd <span class="cp">${</span><span class="n">base</span><span class="o">-</span><span class="n">url</span><span class="cp">}</span>/initram.igz
+boot ||
+# If everything failed, give the user some options
+echo Boot from <span class="cp">${</span><span class="n">base</span><span class="o">-</span><span class="n">url</span><span class="cp">}</span> failed
+prompt --key 0x197e --timeout 2000 Press F12 to investigate || exit
+shell
+exit
+</pre></div>
+</td></tr></table>
+
+<h2>Sysrescue Files</h2>
+<p>Now we need the necessary files off the Sysrescue CD to your webroot.
+Copy the following files off:
+<em> isolinux/initram.igz
+</em> isolinux/rescue32
+<em> isolinux/rescue64
+</em> sysrcd.dat
+* sysrcd.md5</p>
+<p>If you have the ISO you can mount it to extract the files as below.</p>
+<div class="highlight"><pre><span class="n">mkdir</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">iso</span>
+<span class="n">mount</span> <span class="o">-</span><span class="n">o</span> <span class="n">loop</span> <span class="n">sysrescue</span><span class="p">.</span><span class="n">iso</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">iso</span>
+<span class="n">mkdir</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">sysrescue</span>
+<span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">iso</span><span class="o">/</span><span class="n">isolinux</span><span class="o">/</span><span class="n">initram</span><span class="p">.</span><span class="n">igz</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">sysrescue</span><span class="o">/</span>
+<span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">iso</span><span class="o">/</span><span class="n">isolinux</span><span class="o">/</span><span class="n">rescue32</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">sysrescue</span><span class="o">/</span>
+<span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">iso</span><span class="o">/</span><span class="n">isolinux</span><span class="o">/</span><span class="n">rescue64</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">sysrescue</span><span class="o">/</span>
+<span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">iso</span><span class="o">/</span><span class="n">sysrcd</span><span class="p">.</span><span class="n">dat</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">sysrescue</span><span class="o">/</span>
+<span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">iso</span><span class="o">/</span><span class="n">sysrcd</span><span class="p">.</span><span class="n">md5</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">sysrescue</span><span class="o">/</span>
+<span class="n">umount</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">iso</span>
+</pre></div>
+
+
+<h2>Fin</h2>
+<p>Now if all your services are running you should be able to PXE boot your system.
+You will get to a menu giving you the option to boot either 32-bit or 64-bit Sysrescue.</p>
+<h2>Appendix</h2>
+<p>Make sure you grab the latest version of Sysrescue, older version may not have the NIC
+drivers required to netboot.
+In the boot.php I set <code>vga=791</code> on modern servers this seems to get prevent GFX issues.</p>                </article>
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </aside><!-- /#featured -->
+            </ol><!-- /#posts-list -->
+            </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="https://www.linkedin.com/in/adamgarstang">LinkedIn</a></li>
+                            <li><a href="https://twitter.com/adz_g88">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
