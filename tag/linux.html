@@ -106,6 +106,12 @@ chown -R vagrant /home/vagrant/.ssh
 </pre></div>
 
 
+<h3>Base Packages</h3>
+<p>Now we need to install the base packages. Anything required for provisioning.</p>
+<div class="highlight"><pre>apt-get install -y ruby rubygems puppet chef
+</pre></div>
+
+
 <h3>VirtualBox Guest Additions</h3>
 <p>Install the prerequisites.</p>
 <div class="highlight"><pre>apt-get install -y gcc build-essential linux-headers-server
