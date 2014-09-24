@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>This is not a blog by Adam Garstang - Vagrant</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">This is not a blog by Adam Garstang </a></h1>
+                <nav><ul>
+                    <li><a href="/pages/about-me.html">About Me</a></li>
+                    <li><a href="/pages/contact-me.html">Contact Me</a></li>
+                    <li><a href="/category/linux.html">Linux</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/vagrant-ubuntu.html">Vagrant Ubuntu Box Build</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-06-27T19:30:00">
+                Fri 27 June 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="/author/adam-garstang.html">Adam Garstang</a>
+        </address>
+<p>In <a href="/category/linux.html">Linux</a>. </p>
+<p>tags: <a href="/tag/linux.html">Linux</a><a href="/tag/ubuntu.html">Ubuntu</a><a href="/tag/vagrant.html">Vagrant</a></p>
+</footer><!-- /.post-info --><p>My notes on how to build a base Vagrant box.
+I created these when I needed a box based on a Ubuntu Trusty dev build.</p>
+<p>You should have <a href="https://www.virtualbox.org/">VirtualBox</a> and 
+<a href="http://www.vagrantup.com/">Vagrant</a> installed and working.</p>
+<h2>Virtual Box</h2>
+<p>Make sure you have VirtualBox version 4.3.4 or greater.</p>
+<p>The reason select this version or greater is that when I first built
+this box I used an earlier version with an earlier version of Guest Additions
+that did not support Shared Folders in kernel version used in Trusty.</p>
+<p>NOTE: I tend refrain from updating VirtualBox to keep my version matching the 
+Guest Additions installed in my base boxes.</p>
+<h3>Setup Virtual Machine</h3>
+<p>Create a new Virtual Machine.</p>
+<ul>
+<li>Name: vagrant-trusty64</li>
+<li>Memory: 512MB</li>
+<li>Disk: Dynamic VMDK 40GB</li>
+<li>Network 1: Attached to NAT</li>
+<li>Port forward: SSH 2222 -&gt; 22</li>
+<li>Disable Audio</li>
+<li>Disable USB</li>
+<li>Mount Ubuntu ISO</li>
+</ul>
+<p>Boot the Virtual Machine to start the Ubuntu installation.</p>
+<h2>Ubuntu Installation</h2>
+<ul>
+<li>At the main menu press F4 to select Minimal Virtual Machine
+ then start the installation.</li>
+<li>Select your keyboard layout.</li>
+<li>Set hostname to "vagrant-trusty64"</li>
+<li>Create a user called "vagrant" with username "vagrant" and password "vagrant"</li>
+<li>Set Disk partitioning to use entire disk.</li>
+<li>From the features list select OpenSSH server.</li>
+</ul>
+<h2>Ubuntu Configuration</h2>
+<p>Once the Ubuntu box is booted log in with the "vagrant" user and drop to root
+with <code>sudo -i</code>.</p>
+<h3>Sudoers</h3>
+<p>Create and admin group to contain users who can sudo without authentication;
+This will include the "vagrant" user.</p>
+<div class="highlight"><pre>groupadd admin
+usermod -G admin vagrant
+</pre></div>
+
+
+<p>Edit the sudoers file with <code>visudo</code> and ensure it has the following set.</p>
+<div class="highlight"><pre><span class="n">Defaults</span> <span class="n">env_keep</span> <span class="o">=</span> <span class="s">&quot;SSH_AUTH_SOCK&quot;</span>
+<span class="o">%</span><span class="n">admin</span> <span class="n">ALL</span><span class="o">=</span><span class="n">NOPASSWD</span><span class="o">:</span> <span class="n">ALL</span>
+</pre></div>
+
+
+<h3>Vagrant SSH Key</h3>
+<p>Download and install Vagrant's public key into
+the "vagrant" users authorized_keys.</p>
+<div class="highlight"><pre>mkdir -p /home/vagrant/.ssh
+chmod 0700 /home/vagrant/.ssh
+wget --no-check-certificate <span class="se">\</span>
+    https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub <span class="se">\</span>
+    -O /home/vagrant/.ssh/authorized_keys
+chmod 0600 /home/vagrant/.ssh/authorized_keys
+chown -R vagrant /home/vagrant/.ssh
+</pre></div>
+
+
+<p>Edit /etc/ssh/sshd_config and ensure it contains the following.</p>
+<div class="highlight"><pre><span class="n">Port</span> <span class="mi">22</span>
+<span class="n">PubKeyAuthentication</span> <span class="n">yes</span>
+<span class="n">AuthorizedKeysFile</span> <span class="o">%</span><span class="n">h</span><span class="o">/</span><span class="p">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">authorized_keys</span>
+<span class="n">PermitEmptyPasswords</span> <span class="n">no</span>
+<span class="n">PasswordAuthentication</span> <span class="n">no</span>
+</pre></div>
+
+
+<h3>Base Packages</h3>
+<p>Now we need to install the base packages. Anything required for provisioning.</p>
+<div class="highlight"><pre>apt-get install -y ruby rubygems puppet chef
+</pre></div>
+
+
+<h3>VirtualBox Guest Additions</h3>
+<p>Install the prerequisites.</p>
+<div class="highlight"><pre>apt-get install -y gcc build-essential linux-headers-server
+</pre></div>
+
+
+<p>Mount the GA ISO from <strong>Devices &gt; Install Guest Additions</strong></p>
+<p>Browse to the CD and run the installation script.</p>
+<p><strong>NOTE:</strong> At this point reboot the machine and and log in before shutting
+it down for packaging. I had problems with Guest Additions if I immediately 
+shutdown and packaged the box using Vagrant.</p>
+<h2>Package With Vagrant</h2>
+<p>Now we create the vagrant <code>.box</code> file with Vagrant.</p>
+<div class="highlight"><pre><span class="n">vagrant</span> <span class="n">package</span> <span class="o">-</span><span class="n">base</span> <span class="n">vagrant</span><span class="o">-</span><span class="n">trusty64</span>
+<span class="n">vagnant</span> <span class="n">box</span> <span class="n">add</span> <span class="o">-</span><span class="n">name</span> <span class="n">trusty64</span> <span class="p">.</span><span class="o">/</span><span class="n">vagrant</span><span class="o">-</span><span class="n">trusty64</span><span class="p">.</span><span class="n">box</span>
+</pre></div>                </article>
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </aside><!-- /#featured -->
+            </ol><!-- /#posts-list -->
+            </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="https://www.linkedin.com/in/adamgarstang">LinkedIn</a></li>
+                            <li><a href="https://twitter.com/adz_g88">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
