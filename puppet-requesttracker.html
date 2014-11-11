@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Puppet Request Tracker 4 on Ubuntu Trusty — This is not a blog by Adam Garstang</title>
+	<meta name="description" content="Title: Puppet Request Tracker 4 on Ubuntu Trusty; Date: 2014-09-24; Author: Adam Garstang">
+	<meta name="author" content="Adam Garstang">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="/theme/html5.js"></script>
+		<![endif]-->
+	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="/theme/css/local.css" rel="stylesheet">
+	<link href="/theme/css/pygments.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="">This is not a blog by Adam Garstang</a>
+			<br><small>what we observe is not the nature itself but the nature exposed to our method of questioning</small></h1>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">Puppet Request Tracker 4 on Ubuntu Trusty</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">Adam Garstang</h4>
+		</span>
+		<time datetime="2014-09-24T19:30:00+01:00" itemprop="datePublished">Wed 24 September 2014</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="/category/linux.html" rel="category">Linux</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="/tag/linux.html" rel="tag">Linux</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/ubuntu.html" rel="tag">Ubuntu</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/puppet.html" rel="tag">Puppet</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/rt.html" rel="tag">RT</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><p><a href="https://github.com/agarstang/puppet-requesttracker4">Basic Puppet module for deploying Request Tracker 4 to Ubuntu Trusty LTS.</a></p>
+<p>This is not designed to be very neat/friendly. Following the philosophy that as much
+of our infrastructure should be quickly re-deployable I required a way to quickly deploy
+our latest RT version and exim config to our server.</p>
+<p>I imagine a lot of cases are similar to our own where the email address you
+want to use for Tracker is on an existing domain. The exim config expects mail
+to be relayed to it from your primary MTA or Exchange server and to smarthost
+mail outbound via your existing infrastructure. It performs SQL queries against
+the trakcer database to figure out which queue mail is destined for.</p>
+<p>It's currently hard coded to using RT-4.2.6 and Postgres (database setup not
+included - perhaps speak to your db admin).</p>
+<p>I am manually installing the majority of dependencies as CPAN was not compiling
+many of them on Trusty. With the majority of them available from packages I 
+created this list and installed the remainder using the then functioning makefile.</p>
+<p>Replace SSL certs in apache template with your own.</p></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
+		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="">This is not a blog by Adam Garstang</a></li>
+							<li><a href="/pages/about-me.html"><i class="fa fa-About Me "></i> About Me</a></li>
+							<li><a href="/pages/contact-me.html"><i class="fa fa-Contact Me "></i> Contact Me</a></li>
+							<li><a href="/feeds/rss.xml"><i class="fa fa-rss "></i> rss</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://aboutwilson.net">Homepage</a></li>
+							<li><a href="http://github.com/wilsonfreitas">Github</a></li>
+							<li><a href="https://twitter.com/aboutwilson">Twitter</a></li>
+							<li><a href="https://plus.google.com/114469936125336696794?rel=author">Google+</a></li>
+							<li><a href="https://www.facebook.com/wnfreitas">Facebook</a></li>
+							<li><a href="http://www.linkedin.com/pub/wilson-freitas/a/572/609">Linked-in</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="/category/Linux.html">Linux (3)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://www.r-bloggers.com/">R-bloggers</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; Adam Garstang 2014</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
+</script>
+ 
+</body>
+</html>

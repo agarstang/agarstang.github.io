@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Vagrant Ubuntu Box Build — This is not a blog by Adam Garstang</title>
+	<meta name="description" content="Title: Vagrant Ubuntu Box Build; Date: 2014-06-27; Author: Adam Garstang">
+	<meta name="author" content="Adam Garstang">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="/theme/html5.js"></script>
+		<![endif]-->
+	<link href="/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="/theme/css/local.css" rel="stylesheet">
+	<link href="/theme/css/pygments.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="">This is not a blog by Adam Garstang</a>
+			<br><small>what we observe is not the nature itself but the nature exposed to our method of questioning</small></h1>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">Vagrant Ubuntu Box Build</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">Adam Garstang</h4>
+		</span>
+		<time datetime="2014-06-27T19:30:00+01:00" itemprop="datePublished">Fri 27 June 2014</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="/category/linux.html" rel="category">Linux</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="/tag/linux.html" rel="tag">Linux</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/ubuntu.html" rel="tag">Ubuntu</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/vagrant.html" rel="tag">Vagrant</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><p>My notes on how to build a base Vagrant box.
+I created these when I needed a box based on a Ubuntu Trusty dev build.</p>
+<p>You should have <a href="https://www.virtualbox.org/">VirtualBox</a> and 
+<a href="http://www.vagrantup.com/">Vagrant</a> installed and working.</p>
+<h2>Virtual Box</h2>
+<p>Make sure you have VirtualBox version 4.3.4 or greater.</p>
+<p>The reason select this version or greater is that when I first built
+this box I used an earlier version with an earlier version of Guest Additions
+that did not support Shared Folders in kernel version used in Trusty.</p>
+<p>NOTE: I tend refrain from updating VirtualBox to keep my version matching the 
+Guest Additions installed in my base boxes.</p>
+<h3>Setup Virtual Machine</h3>
+<p>Create a new Virtual Machine.</p>
+<ul>
+<li>Name: vagrant-trusty64</li>
+<li>Memory: 512MB</li>
+<li>Disk: Dynamic VMDK 40GB</li>
+<li>Network 1: Attached to NAT</li>
+<li>Port forward: SSH 2222 -&gt; 22</li>
+<li>Disable Audio</li>
+<li>Disable USB</li>
+<li>Mount Ubuntu ISO</li>
+</ul>
+<p>Boot the Virtual Machine to start the Ubuntu installation.</p>
+<h2>Ubuntu Installation</h2>
+<ul>
+<li>At the main menu press F4 to select Minimal Virtual Machine
+ then start the installation.</li>
+<li>Select your keyboard layout.</li>
+<li>Set hostname to "vagrant-trusty64"</li>
+<li>Create a user called "vagrant" with username "vagrant" and password "vagrant"</li>
+<li>Set Disk partitioning to use entire disk.</li>
+<li>From the features list select OpenSSH server.</li>
+</ul>
+<h2>Ubuntu Configuration</h2>
+<p>Once the Ubuntu box is booted log in with the "vagrant" user and drop to root
+with <code>sudo -i</code>.</p>
+<h3>Sudoers</h3>
+<p>Create and admin group to contain users who can sudo without authentication;
+This will include the "vagrant" user.</p>
+<div class="highlight"><pre>groupadd admin
+usermod -G admin vagrant
+</pre></div>
+
+
+<p>Edit the sudoers file with <code>visudo</code> and ensure it has the following set.</p>
+<div class="highlight"><pre><span class="n">Defaults</span> <span class="n">env_keep</span> <span class="o">=</span> <span class="s">&quot;SSH_AUTH_SOCK&quot;</span>
+<span class="nf">%admin</span> <span class="n">ALL</span><span class="o">=</span><span class="nl">NOPASSWD</span><span class="p">:</span> <span class="n">ALL</span>
+</pre></div>
+
+
+<h3>Vagrant SSH Key</h3>
+<p>Download and install Vagrant's public key into
+the "vagrant" users authorized_keys.</p>
+<div class="highlight"><pre>mkdir -p /home/vagrant/.ssh
+chmod <span class="m">0700</span> /home/vagrant/.ssh
+wget --no-check-certificate <span class="se">\</span>
+    https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub <span class="se">\</span>
+    -O /home/vagrant/.ssh/authorized_keys
+chmod <span class="m">0600</span> /home/vagrant/.ssh/authorized_keys
+chown -R vagrant /home/vagrant/.ssh
+</pre></div>
+
+
+<p>Edit /etc/ssh/sshd_config and ensure it contains the following.</p>
+<div class="highlight"><pre>Port 22
+PubKeyAuthentication yes
+AuthorizedKeysFile %h/.ssh/authorized_keys
+PermitEmptyPasswords no
+PasswordAuthentication no
+</pre></div>
+
+
+<h3>Base Packages</h3>
+<p>Now we need to install the base packages. Anything required for provisioning.</p>
+<div class="highlight"><pre>apt-get install -y ruby rubygems puppet chef
+</pre></div>
+
+
+<h3>VirtualBox Guest Additions</h3>
+<p>Install the prerequisites.</p>
+<div class="highlight"><pre>apt-get install -y gcc build-essential linux-headers-server
+</pre></div>
+
+
+<p>Mount the GA ISO from <strong>Devices &gt; Install Guest Additions</strong></p>
+<p>Browse to the CD and run the installation script.</p>
+<p><strong>NOTE:</strong> At this point reboot the machine and and log in before shutting
+it down for packaging. I had problems with Guest Additions if I immediately 
+shutdown and packaged the box using Vagrant.</p>
+<h2>Package With Vagrant</h2>
+<p>Now we create the vagrant <code>.box</code> file with Vagrant.</p>
+<div class="highlight"><pre>vagrant package -base vagrant-trusty64
+vagnant box add -name trusty64 ./vagrant-trusty64.box
+</pre></div></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
+		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="">This is not a blog by Adam Garstang</a></li>
+							<li><a href="/pages/about-me.html"><i class="fa fa-About Me "></i> About Me</a></li>
+							<li><a href="/pages/contact-me.html"><i class="fa fa-Contact Me "></i> Contact Me</a></li>
+							<li><a href="/feeds/rss.xml"><i class="fa fa-rss "></i> rss</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://aboutwilson.net">Homepage</a></li>
+							<li><a href="http://github.com/wilsonfreitas">Github</a></li>
+							<li><a href="https://twitter.com/aboutwilson">Twitter</a></li>
+							<li><a href="https://plus.google.com/114469936125336696794?rel=author">Google+</a></li>
+							<li><a href="https://www.facebook.com/wnfreitas">Facebook</a></li>
+							<li><a href="http://www.linkedin.com/pub/wilson-freitas/a/572/609">Linked-in</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="/category/Linux.html">Linux (3)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="http://www.r-bloggers.com/">R-bloggers</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; Adam Garstang 2014</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
+</script>
+ 
+</body>
+</html>
