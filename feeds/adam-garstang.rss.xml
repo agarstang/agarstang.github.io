@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>This is not a blog by Adam Garstang</title><link>/</link><description></description><atom:link href="/feeds%5Cadam-garstang.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 24 Sep 2014 19:30:00 +0100</lastBuildDate><item><title>Puppet Request Tracker 4 on Ubuntu Trusty</title><link>/puppet-requesttracker.html</link><description>&lt;p&gt;&lt;a href="https://github.com/agarstang/puppet-requesttracker4"&gt;Basic Puppet module for deploying Request Tracker 4 to Ubuntu Trusty LTS.&lt;/a&gt;&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>This is not a blog by Adam Garstang</title><link>http://www.adamgarstang.co.uk/</link><description>A collection of my thoughts, notes, and ideas.</description><atom:link href="http://www.adamgarstang.co.uk/feeds%5Cadam-garstang.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 24 Sep 2014 19:30:00 +0100</lastBuildDate><item><title>Puppet Request Tracker 4 on Ubuntu Trusty</title><link>http://www.adamgarstang.co.uk/puppet-requesttracker.html</link><description>&lt;p&gt;&lt;a href="https://github.com/agarstang/puppet-requesttracker4"&gt;Basic Puppet module for deploying Request Tracker 4 to Ubuntu Trusty LTS.&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This is not designed to be very neat/friendly. Following the philosophy that as much
 of our infrastructure should be quickly re-deployable I required a way to quickly deploy
 our latest RT version and exim config to our server.&lt;/p&gt;
@@ -13,7 +13,7 @@ included - perhaps speak to your db admin).&lt;/p&gt;
 &lt;p&gt;I am manually installing the majority of dependencies as CPAN was not compiling
 many of them on Trusty. With the majority of them available from packages I 
 created this list and installed the remainder using the then functioning makefile.&lt;/p&gt;
-&lt;p&gt;Replace SSL certs in apache template with your own.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Wed, 24 Sep 2014 19:30:00 +0100</pubDate><guid>tag:,2014-09-24:puppet-requesttracker.html</guid><category>Linux</category><category>Ubuntu</category><category>Puppet</category><category>RT</category></item><item><title>Vagrant Ubuntu Box Build</title><link>/vagrant-ubuntu.html</link><description>&lt;p&gt;My notes on how to build a base Vagrant box.
+&lt;p&gt;Replace SSL certs in apache template with your own.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Wed, 24 Sep 2014 19:30:00 +0100</pubDate><guid>tag:www.adamgarstang.co.uk,2014-09-24:puppet-requesttracker.html</guid><category>Linux</category><category>Ubuntu</category><category>Puppet</category><category>RT</category></item><item><title>Vagrant Ubuntu Box Build</title><link>http://www.adamgarstang.co.uk/vagrant-ubuntu.html</link><description>&lt;p&gt;My notes on how to build a base Vagrant box.
 I created these when I needed a box based on a Ubuntu Trusty dev build.&lt;/p&gt;
 &lt;p&gt;You should have &lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt; and 
 &lt;a href="http://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt; installed and working.&lt;/p&gt;
@@ -107,7 +107,7 @@ shutdown and packaged the box using Vagrant.&lt;/p&gt;
 &lt;p&gt;Now we create the vagrant &lt;code&gt;.box&lt;/code&gt; file with Vagrant.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;vagrant package -base vagrant-trusty64
 vagnant box add -name trusty64 ./vagrant-trusty64.box
-&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Thu, 31 Jul 2014 17:10:00 +0100</pubDate><guid>tag:,2014-06-27:vagrant-ubuntu.html</guid><category>Linux</category><category>Ubuntu</category><category>Vagrant</category></item><item><title>iPXE Booting Sysrescue Linux</title><link>/ipxe-sysrescue.html</link><description>&lt;p&gt;This is a brief walkthrough on how to iPXE netboot Sysrescue Linux over HTTP.
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Thu, 31 Jul 2014 17:10:00 +0100</pubDate><guid>tag:www.adamgarstang.co.uk,2014-06-27:vagrant-ubuntu.html</guid><category>Linux</category><category>Ubuntu</category><category>Vagrant</category></item><item><title>iPXE Booting Sysrescue Linux</title><link>http://www.adamgarstang.co.uk/ipxe-sysrescue.html</link><description>&lt;p&gt;This is a brief walkthrough on how to iPXE netboot Sysrescue Linux over HTTP.
 It is simply a correlation of the information I gathered while searching online.&lt;/p&gt;
 &lt;p&gt;In this guide a single Ubuntu 14.04 (hostname: duke) box will have the following roles:&lt;/p&gt;
 &lt;ul&gt;
@@ -205,4 +205,4 @@ You will get to a menu giving you the option to boot either 32-bit or 64-bit Sys
 &lt;h2&gt;Appendix&lt;/h2&gt;
 &lt;p&gt;Make sure you grab the latest version of Sysrescue, older version may not have the NIC
 drivers required to netboot.
-In the boot.php I set &lt;code&gt;vga=791&lt;/code&gt; on modern servers this seems to get prevent GFX issues.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Tue, 24 Jun 2014 19:45:00 +0100</pubDate><guid>tag:,2014-06-24:ipxe-sysrescue.html</guid><category>Linux</category><category>iPXE</category><category>netboot</category><category>Sysrescue</category><category>Ubuntu</category></item></channel></rss>
+In the boot.php I set &lt;code&gt;vga=791&lt;/code&gt; on modern servers this seems to get prevent GFX issues.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Tue, 24 Jun 2014 19:45:00 +0100</pubDate><guid>tag:www.adamgarstang.co.uk,2014-06-24:ipxe-sysrescue.html</guid><category>Linux</category><category>iPXE</category><category>netboot</category><category>Sysrescue</category><category>Ubuntu</category></item></channel></rss>
