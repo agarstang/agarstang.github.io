@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>This is not a blog by Adam Garstang</title><link>http://www.adamgarstang.co.uk/</link><description>A collection of my thoughts, notes, and ideas.</description><atom:link href="http://www.adamgarstang.co.uk/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 24 Sep 2014 19:30:00 +0100</lastBuildDate><item><title>Puppet Request Tracker 4 on Ubuntu Trusty</title><link>http://www.adamgarstang.co.uk/puppet-requesttracker.html</link><description>&lt;p&gt;&lt;a href="https://github.com/agarstang/puppet-requesttracker4"&gt;Basic Puppet module for deploying Request Tracker 4 to Ubuntu Trusty LTS.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This is not designed to be very neat/friendly. Following the philosophy that as much
+of our infrastructure should be quickly re-deployable I required a way to quickly deploy
+our latest RT version and exim config to our server.&lt;/p&gt;
+&lt;p&gt;I imagine a lot of cases are similar to our own where the email address you
+want to use for Tracker is on an existing domain. The exim config expects mail
+to be relayed to it from your primary MTA or Exchange server and to smarthost
+mail outbound via your existing infrastructure. It performs SQL queries against
+the trakcer database to figure out which queue mail is destined for.&lt;/p&gt;
+&lt;p&gt;It's currently hard coded to using RT-4.2.6 and Postgres (database setup not
+included - perhaps speak to your db admin).&lt;/p&gt;
+&lt;p&gt;I am manually installing the majority of dependencies as CPAN was not compiling
+many of them on Trusty. With the majority of them available from packages I 
+created this list and installed the remainder using the then functioning makefile.&lt;/p&gt;
+&lt;p&gt;Replace SSL certs in apache template with your own.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Wed, 24 Sep 2014 19:30:00 +0100</pubDate><guid>tag:www.adamgarstang.co.uk,2014-09-24:puppet-requesttracker.html</guid><category>Linux</category><category>Ubuntu</category><category>Puppet</category><category>RT</category></item><item><title>Vagrant Ubuntu Box Build</title><link>http://www.adamgarstang.co.uk/vagrant-ubuntu.html</link><description>&lt;p&gt;My notes on how to build a base Vagrant box.
+I created these when I needed a box based on a Ubuntu Trusty dev build.&lt;/p&gt;
+&lt;p&gt;You should have &lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt; and 
+&lt;a href="http://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt; installed and working.&lt;/p&gt;
+&lt;h2&gt;Virtual Box&lt;/h2&gt;
+&lt;p&gt;Make sure you have VirtualBox version 4.3.4 or greater.&lt;/p&gt;
+&lt;p&gt;The reason select this version or greater is that when I first built
+this box I used an earlier version with an earlier version of Guest Additions
+that did not support Shared Folders in kernel version used in Trusty.&lt;/p&gt;
+&lt;p&gt;NOTE: I tend refrain from updating VirtualBox to keep my version matching the 
+Guest Additions installed in my base boxes.&lt;/p&gt;
+&lt;h3&gt;Setup Virtual Machine&lt;/h3&gt;
+&lt;p&gt;Create a new Virtual Machine.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Name: vagrant-trusty64&lt;/li&gt;
+&lt;li&gt;Memory: 512MB&lt;/li&gt;
+&lt;li&gt;Disk: Dynamic VMDK 40GB&lt;/li&gt;
+&lt;li&gt;Network 1: Attached to NAT&lt;/li&gt;
+&lt;li&gt;Port forward: SSH 2222 -&amp;gt; 22&lt;/li&gt;
+&lt;li&gt;Disable Audio&lt;/li&gt;
+&lt;li&gt;Disable USB&lt;/li&gt;
+&lt;li&gt;Mount Ubuntu ISO&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Boot the Virtual Machine to start the Ubuntu installation.&lt;/p&gt;
+&lt;h2&gt;Ubuntu Installation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;At the main menu press F4 to select Minimal Virtual Machine
+ then start the installation.&lt;/li&gt;
+&lt;li&gt;Select your keyboard layout.&lt;/li&gt;
+&lt;li&gt;Set hostname to "vagrant-trusty64"&lt;/li&gt;
+&lt;li&gt;Create a user called "vagrant" with username "vagrant" and password "vagrant"&lt;/li&gt;
+&lt;li&gt;Set Disk partitioning to use entire disk.&lt;/li&gt;
+&lt;li&gt;From the features list select OpenSSH server.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Ubuntu Configuration&lt;/h2&gt;
+&lt;p&gt;Once the Ubuntu box is booted log in with the "vagrant" user and drop to root
+with &lt;code&gt;sudo -i&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Sudoers&lt;/h3&gt;
+&lt;p&gt;Create and admin group to contain users who can sudo without authentication;
+This will include the "vagrant" user.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;groupadd admin
+usermod -G admin vagrant
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Edit the sudoers file with &lt;code&gt;visudo&lt;/code&gt; and ensure it has the following set.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Defaults&lt;/span&gt; &lt;span class="n"&gt;env_keep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;SSH_AUTH_SOCK&amp;quot;&lt;/span&gt;
+&lt;span class="nf"&gt;%admin&lt;/span&gt; &lt;span class="n"&gt;ALL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nl"&gt;NOPASSWD&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ALL&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Vagrant SSH Key&lt;/h3&gt;
+&lt;p&gt;Download and install Vagrant's public key into
+the "vagrant" users authorized_keys.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mkdir -p /home/vagrant/.ssh
+chmod &lt;span class="m"&gt;0700&lt;/span&gt; /home/vagrant/.ssh
+wget --no-check-certificate &lt;span class="se"&gt;\&lt;/span&gt;
+    https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub &lt;span class="se"&gt;\&lt;/span&gt;
+    -O /home/vagrant/.ssh/authorized_keys
+chmod &lt;span class="m"&gt;0600&lt;/span&gt; /home/vagrant/.ssh/authorized_keys
+chown -R vagrant /home/vagrant/.ssh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Edit /etc/ssh/sshd_config and ensure it contains the following.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Port 22
+PubKeyAuthentication yes
+AuthorizedKeysFile %h/.ssh/authorized_keys
+PermitEmptyPasswords no
+PasswordAuthentication no
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Base Packages&lt;/h3&gt;
+&lt;p&gt;Now we need to install the base packages. Anything required for provisioning.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;apt-get install -y ruby rubygems puppet chef
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;VirtualBox Guest Additions&lt;/h3&gt;
+&lt;p&gt;Install the prerequisites.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;apt-get install -y gcc build-essential linux-headers-server
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Mount the GA ISO from &lt;strong&gt;Devices &amp;gt; Install Guest Additions&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Browse to the CD and run the installation script.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; At this point reboot the machine and and log in before shutting
+it down for packaging. I had problems with Guest Additions if I immediately 
+shutdown and packaged the box using Vagrant.&lt;/p&gt;
+&lt;h2&gt;Package With Vagrant&lt;/h2&gt;
+&lt;p&gt;Now we create the vagrant &lt;code&gt;.box&lt;/code&gt; file with Vagrant.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;vagrant package -base vagrant-trusty64
+vagnant box add -name trusty64 ./vagrant-trusty64.box
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Thu, 31 Jul 2014 17:10:00 +0100</pubDate><guid>tag:www.adamgarstang.co.uk,2014-06-27:vagrant-ubuntu.html</guid><category>Linux</category><category>Ubuntu</category><category>Vagrant</category></item><item><title>iPXE Booting Sysrescue Linux</title><link>http://www.adamgarstang.co.uk/ipxe-sysrescue.html</link><description>&lt;p&gt;This is a brief walkthrough on how to iPXE netboot Sysrescue Linux over HTTP.
+It is simply a correlation of the information I gathered while searching online.&lt;/p&gt;
+&lt;p&gt;In this guide a single Ubuntu 14.04 (hostname: duke) box will have the following roles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TFTP Server - Legacy systems without iPXE will boot an image from here.&lt;/li&gt;
+&lt;li&gt;HTTP Server - We will use Ubuntu's default Apache from the repositories. HTTP is faster than TFTP&lt;/li&gt;
+&lt;li&gt;DHCP Server - In most cases this will likely by elsewhere however we will configure. ISC DHCP Server here.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Lets assume DNS is working.&lt;/p&gt;
+&lt;h2&gt;Packages&lt;/h2&gt;
+&lt;p&gt;Install the necessary packages.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;apt-get install -y isc-dhcp-server
+apt-get install -y tftpd-hpa apache2
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Fallback Image&lt;/h2&gt;
+&lt;p&gt;Download the fallback iPXE image for legacy network cards.
+    :::bash
+    wget http://boot.ipxe.org/undionly.kpxe -O /var/lib/tftpboot/undionly.kpxe&lt;/p&gt;
+&lt;h2&gt;Configure DHCP Server&lt;/h2&gt;
+&lt;p&gt;Add the following to your dhcpd.conf file. You can either add it as to a
+subnet declaration of a specific hosts declaration.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="nt"&gt;if&lt;/span&gt; &lt;span class="nt"&gt;exists&lt;/span&gt; &lt;span class="nt"&gt;ipxe&lt;/span&gt;&lt;span class="nc"&gt;.http&lt;/span&gt; &lt;span class="nt"&gt;and&lt;/span&gt; &lt;span class="nt"&gt;exists&lt;/span&gt; &lt;span class="nt"&gt;user-class&lt;/span&gt; &lt;span class="nt"&gt;and&lt;/span&gt; &lt;span class="nt"&gt;option&lt;/span&gt; &lt;span class="nt"&gt;user-class&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;iPXE&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;filename&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://duke/boot.php&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="nt"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;filename&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;undionly.kpxe&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Create iPXE Config&lt;/h2&gt;
+&lt;p&gt;In the root of your webserver (default /var/www) create boot.php.
+This will provide menu for selecting your Sysrescue version and allow you
+to differentiate between the any other OS/options you chose to add.
+Content:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!ipxe&lt;/span&gt;
+
+menu
+item sysrescue64  Boot Linux SysRescue 64-bit
+item sysrescue32  Boot Linux SysRescue 32-bit
+choose target &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; goto &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;target&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+
+:sysrescue64
+&lt;span class="nb"&gt;echo &lt;/span&gt;Booting Sysrescue
+&lt;span class="nb"&gt;set &lt;/span&gt;base-url http://duke/sysrescue
+kernel &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/rescue64 &lt;span class="nv"&gt;scandelay&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; nomodeset &lt;span class="nv"&gt;vga&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;791&lt;/span&gt; &lt;span class="nv"&gt;netboot&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/sysrcd.dat
+initrd &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/initram.igz
+boot &lt;span class="o"&gt;||&lt;/span&gt;
+&lt;span class="c"&gt;# If everything failed, give the user some options&lt;/span&gt;
+&lt;span class="nb"&gt;echo &lt;/span&gt;Boot from &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; failed
+prompt --key 0x197e --timeout &lt;span class="m"&gt;2000&lt;/span&gt; Press F12 to investigate &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt;
+shell
+&lt;span class="nb"&gt;exit&lt;/span&gt;
+
+:sysrescue32
+&lt;span class="nb"&gt;echo &lt;/span&gt;Booting Sysrescue
+&lt;span class="nb"&gt;set &lt;/span&gt;base-url http://duke/sysrescue
+kernel &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/rescue32 &lt;span class="nv"&gt;scandelay&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; nomodeset &lt;span class="nv"&gt;vga&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;791&lt;/span&gt; &lt;span class="nv"&gt;netboot&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/sysrcd.dat
+initrd &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/initram.igz
+boot &lt;span class="o"&gt;||&lt;/span&gt;
+&lt;span class="c"&gt;# If everything failed, give the user some options&lt;/span&gt;
+&lt;span class="nb"&gt;echo &lt;/span&gt;Boot from &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; failed
+prompt --key 0x197e --timeout &lt;span class="m"&gt;2000&lt;/span&gt; Press F12 to investigate &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt;
+shell
+&lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Sysrescue Files&lt;/h2&gt;
+&lt;p&gt;Now we need the necessary files off the Sysrescue CD to your webroot.
+Copy the following files off:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;isolinux/initram.igz&lt;/li&gt;
+&lt;li&gt;isolinux/rescue32&lt;/li&gt;
+&lt;li&gt;isolinux/rescue64&lt;/li&gt;
+&lt;li&gt;sysrcd.dat&lt;/li&gt;
+&lt;li&gt;sysrcd.md5&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you have the ISO you can mount it to extract the files as below.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mkdir /mnt/iso
+mount -o loop sysrescue.iso /mnt/iso
+mkdir /var/www/sysrescue
+cp -r /mnt/iso/isolinux/initram.igz /var/www/html/sysrescue/
+cp -r /mnt/iso/isolinux/rescue32 /var/www/html/sysrescue/
+cp -r /mnt/iso/isolinux/rescue64 /var/www/html/sysrescue/
+cp -r /mnt/iso/sysrcd.dat /var/www/html/sysrescue/
+cp -r /mnt/iso/sysrcd.md5 /var/www/html/sysrescue/
+umount /mnt/iso
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Fin&lt;/h2&gt;
+&lt;p&gt;Now if all your services are running you should be able to PXE boot your system.
+You will get to a menu giving you the option to boot either 32-bit or 64-bit Sysrescue.&lt;/p&gt;
+&lt;h2&gt;Appendix&lt;/h2&gt;
+&lt;p&gt;Make sure you grab the latest version of Sysrescue, older version may not have the NIC
+drivers required to netboot.
+In the boot.php I set &lt;code&gt;vga=791&lt;/code&gt; on modern servers this seems to get prevent GFX issues.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Tue, 24 Jun 2014 19:45:00 +0100</pubDate><guid>tag:www.adamgarstang.co.uk,2014-06-24:ipxe-sysrescue.html</guid><category>Linux</category><category>iPXE</category><category>netboot</category><category>Sysrescue</category><category>Ubuntu</category></item></channel></rss>
