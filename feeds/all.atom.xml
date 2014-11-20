@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>This is not a blog by Adam Garstang</title><link href="http://www.adamgarstang.co.uk/" rel="alternate"></link><link href="http://www.adamgarstang.co.uk/feeds/all.atom.xml" rel="self"></link><id>http://www.adamgarstang.co.uk/</id><updated>2014-09-24T19:30:00+01:00</updated><entry><title>Puppet Request Tracker 4 on Ubuntu Trusty</title><link href="http://www.adamgarstang.co.uk/puppet-requesttracker.html" rel="alternate"></link><updated>2014-09-24T19:30:00+01:00</updated><author><name>Adam Garstang</name></author><id>tag:www.adamgarstang.co.uk,2014-09-24:puppet-requesttracker.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/agarstang/puppet-requesttracker4"&gt;Basic Puppet module for deploying Request Tracker 4 to Ubuntu Trusty LTS.&lt;/a&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>This is not a blog by Adam Garstang</title><link href="http://www.adamgarstang.co.uk/" rel="alternate"></link><link href="http://www.adamgarstang.co.uk/feeds/all.atom.xml" rel="self"></link><id>http://www.adamgarstang.co.uk/</id><updated>2014-11-20T22:00:00+00:00</updated><entry><title>Connect-Office365 Powershell Module</title><link href="http://www.adamgarstang.co.uk/powershell-office365.html" rel="alternate"></link><updated>2014-11-20T22:00:00+00:00</updated><author><name>Adam Garstang</name></author><id>tag:www.adamgarstang.co.uk,2014-11-20:powershell-office365.html</id><summary type="html">&lt;p&gt;Connecting to Office365 can be a bit of a chore. This is a nice and quick module
+to get you connected to Microsoft Online and Exchange Online management.&lt;/p&gt;
+&lt;p&gt;You will need the &lt;a href="http://technet.microsoft.com/en-us/library/hh974317.aspx"&gt;Microsoft Online Powershell Modules&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Then download Connect-Office365.psm1 from &lt;a href="https://github.com/agarstang/Connect-Office365"&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Powershell Modules&lt;/h2&gt;
+&lt;p&gt;To make the command always available you need to store the module somewhere Powershell will know to load it from.&lt;/p&gt;
+&lt;p&gt;These locations can be found on the PSModulePath Environment Variable (&lt;code&gt;$env:PSModulePath&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;I am going to store it in my user modules directory &lt;code&gt;Documents\WindowsPowerShell\Modules&lt;/code&gt;; 
+if this path doesn't exist then create it.&lt;/p&gt;
+&lt;p&gt;In order for the module to load it needs to be a &lt;a href="http://msdn.microsoft.com/en-us/library/dd878350%28v=vs.85%29.aspx"&gt;well formed module&lt;/a&gt;.
+It needs to be stored in a directory of a name (usually the module name) and at least one Powershell file with the same name.&lt;/p&gt;
+&lt;p&gt;In this instance: &lt;code&gt;Documents\WindowsPowerShell\Modules\Connect-Office365\Connect-Office365.psm1&lt;/code&gt;&lt;/p&gt;</summary><category term="Powershell"></category><category term="Office365"></category></entry><entry><title>Puppet Request Tracker 4 on Ubuntu Trusty</title><link href="http://www.adamgarstang.co.uk/puppet-requesttracker.html" rel="alternate"></link><updated>2014-09-24T19:30:00+01:00</updated><author><name>Adam Garstang</name></author><id>tag:www.adamgarstang.co.uk,2014-09-24:puppet-requesttracker.html</id><summary type="html">&lt;p&gt;&lt;a href="https://github.com/agarstang/puppet-requesttracker4"&gt;Basic Puppet module for deploying Request Tracker 4 to Ubuntu Trusty LTS.&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This is not designed to be very neat/friendly. Following the philosophy that as much
 of our infrastructure should be quickly re-deployable I required a way to quickly deploy
 our latest RT version and exim config to our server.&lt;/p&gt;
@@ -124,9 +135,11 @@ apt-get install -y tftpd-hpa apache2
 
 
 &lt;h2&gt;Fallback Image&lt;/h2&gt;
-&lt;p&gt;Download the fallback iPXE image for legacy network cards.
-    :::bash
-    wget http://boot.ipxe.org/undionly.kpxe -O /var/lib/tftpboot/undionly.kpxe&lt;/p&gt;
+&lt;p&gt;Download the fallback iPXE image for legacy network cards.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;wget http://boot.ipxe.org/undionly.kpxe -O /var/lib/tftpboot/undionly.kpxe
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;h2&gt;Configure DHCP Server&lt;/h2&gt;
 &lt;p&gt;Add the following to your dhcpd.conf file. You can either add it as to a
 subnet declaration of a specific hosts declaration.&lt;/p&gt;

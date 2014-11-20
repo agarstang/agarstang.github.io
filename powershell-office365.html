@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>iPXE — This is not a blog by Adam Garstang</title>
-	<meta name="description" content="All posts which refer to tag iPXE">
+	<title>Connect-Office365 Powershell Module — This is not a blog by Adam Garstang</title>
+	<meta name="description" content="Title: Connect-Office365 Powershell Module; Date: 2014-11-20; Author: Adam Garstang">
 	<meta name="author" content="Adam Garstang">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -24,15 +24,45 @@
 			<br><small>A collection of my thoughts, notes, and ideas.</small></h1>	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-<h1>Tag <small>iPXE</small></h1>
-<table class="table">
-    <tbody>
-        <tr>
-        <td>24 Jun 2014</td>
-        <td><a href='http://www.adamgarstang.co.uk/ipxe-sysrescue.html'>iPXE Booting Sysrescue Linux</a></td>
-        </tr>
-    </tbody>
-</table>
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">Connect-Office365 Powershell Module</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">Adam Garstang</h4>
+		</span>
+		<time datetime="2014-11-20T22:00:00+00:00" itemprop="datePublished">Thu 20 November 2014</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="http://www.adamgarstang.co.uk/category/windows.html" rel="category">Windows</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="http://www.adamgarstang.co.uk/tag/powershell.html" rel="tag">Powershell</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="http://www.adamgarstang.co.uk/tag/office365.html" rel="tag">Office365</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><p>Connecting to Office365 can be a bit of a chore. This is a nice and quick module
+to get you connected to Microsoft Online and Exchange Online management.</p>
+<p>You will need the <a href="http://technet.microsoft.com/en-us/library/hh974317.aspx">Microsoft Online Powershell Modules</a>.</p>
+<p>Then download Connect-Office365.psm1 from <a href="https://github.com/agarstang/Connect-Office365">here</a></p>
+<h2>Powershell Modules</h2>
+<p>To make the command always available you need to store the module somewhere Powershell will know to load it from.</p>
+<p>These locations can be found on the PSModulePath Environment Variable (<code>$env:PSModulePath</code>).</p>
+<p>I am going to store it in my user modules directory <code>Documents\WindowsPowerShell\Modules</code>; 
+if this path doesn't exist then create it.</p>
+<p>In order for the module to load it needs to be a <a href="http://msdn.microsoft.com/en-us/library/dd878350%28v=vs.85%29.aspx">well formed module</a>.
+It needs to be stored in a directory of a name (usually the module name) and at least one Powershell file with the same name.</p>
+<p>In this instance: <code>Documents\WindowsPowerShell\Modules\Connect-Office365\Connect-Office365.psm1</code></p></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
 		</div>
 	</div> 	<!-- <hr> -->
 </div> <!-- /container -->

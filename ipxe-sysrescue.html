@@ -74,9 +74,11 @@ apt-get install -y tftpd-hpa apache2
 
 
 <h2>Fallback Image</h2>
-<p>Download the fallback iPXE image for legacy network cards.
-    :::bash
-    wget http://boot.ipxe.org/undionly.kpxe -O /var/lib/tftpboot/undionly.kpxe</p>
+<p>Download the fallback iPXE image for legacy network cards.</p>
+<div class="highlight"><pre>wget http://boot.ipxe.org/undionly.kpxe -O /var/lib/tftpboot/undionly.kpxe
+</pre></div>
+
+
 <h2>Configure DHCP Server</h2>
 <p>Add the following to your dhcpd.conf file. You can either add it as to a
 subnet declaration of a specific hosts declaration.</p>
@@ -189,6 +191,7 @@ In the boot.php I set <code>vga=791</code> on modern servers this seems to get p
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
 							<li><a href="http://www.adamgarstang.co.uk/category/Linux.html">Linux (3)</a></li>
+							<li><a href="http://www.adamgarstang.co.uk/category/Windows.html">Windows (1)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
