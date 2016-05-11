@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Vagrant Ubuntu Box Build — This is not a blog by Adam Garstang</title>
+	<title>Vagrant Ubuntu Box Build — Out of inodes</title>
 	<meta name="description" content="Title: Vagrant Ubuntu Box Build; Date: 2014-06-27; Author: Adam Garstang">
 	<meta name="author" content="Adam Garstang">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,8 +20,8 @@
 <body>
 <div class="container">
 	<div class="page-header">
-		<h1><a href="http://www.adamgarstang.co.uk/">This is not a blog by Adam Garstang</a>
-			<br><small>A collection of my thoughts, notes, and ideas.</small></h1>	</div>
+		<h1><a href="http://www.adamgarstang.co.uk/">Out of inodes</a>
+			<br><small>This is not a blog by Adam Garstang.</small></h1>	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 <div class="article" itemscope itemtype="http://schema.org/BlogPosting">
@@ -91,13 +91,13 @@ with <code>sudo -i</code>.</p>
 <h3>Sudoers</h3>
 <p>Create and admin group to contain users who can sudo without authentication;
 This will include the "vagrant" user.</p>
-<div class="highlight"><pre>groupadd admin
+<div class="highlight"><pre><span></span>groupadd admin
 usermod -G admin vagrant
 </pre></div>
 
 
 <p>Edit the sudoers file with <code>visudo</code> and ensure it has the following set.</p>
-<div class="highlight"><pre><span class="n">Defaults</span> <span class="n">env_keep</span> <span class="o">=</span> <span class="s">&quot;SSH_AUTH_SOCK&quot;</span>
+<div class="highlight"><pre><span></span><span class="n">Defaults</span> <span class="n">env_keep</span> <span class="o">=</span> <span class="s">&quot;SSH_AUTH_SOCK&quot;</span>
 <span class="nf">%admin</span> <span class="n">ALL</span><span class="o">=</span><span class="nl">NOPASSWD</span><span class="p">:</span> <span class="n">ALL</span>
 </pre></div>
 
@@ -105,7 +105,7 @@ usermod -G admin vagrant
 <h3>Vagrant SSH Key</h3>
 <p>Download and install Vagrant's public key into
 the "vagrant" users authorized_keys.</p>
-<div class="highlight"><pre>mkdir -p /home/vagrant/.ssh
+<div class="highlight"><pre><span></span>mkdir -p /home/vagrant/.ssh
 chmod <span class="m">0700</span> /home/vagrant/.ssh
 wget --no-check-certificate <span class="se">\</span>
     https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub <span class="se">\</span>
@@ -116,7 +116,7 @@ chown -R vagrant /home/vagrant/.ssh
 
 
 <p>Edit /etc/ssh/sshd_config and ensure it contains the following.</p>
-<div class="highlight"><pre>Port 22
+<div class="highlight"><pre><span></span>Port 22
 PubKeyAuthentication yes
 AuthorizedKeysFile %h/.ssh/authorized_keys
 PermitEmptyPasswords no
@@ -126,13 +126,13 @@ PasswordAuthentication no
 
 <h3>Base Packages</h3>
 <p>Now we need to install the base packages. Anything required for provisioning.</p>
-<div class="highlight"><pre>apt-get install -y ruby rubygems puppet chef
+<div class="highlight"><pre><span></span>apt-get install -y ruby rubygems puppet chef
 </pre></div>
 
 
 <h3>VirtualBox Guest Additions</h3>
 <p>Install the prerequisites.</p>
-<div class="highlight"><pre>apt-get install -y gcc build-essential linux-headers-server
+<div class="highlight"><pre><span></span>apt-get install -y gcc build-essential linux-headers-server
 </pre></div>
 
 
@@ -143,7 +143,7 @@ it down for packaging. I had problems with Guest Additions if I immediately
 shutdown and packaged the box using Vagrant.</p>
 <h2>Package With Vagrant</h2>
 <p>Now we create the vagrant <code>.box</code> file with Vagrant.</p>
-<div class="highlight"><pre>vagrant package -base vagrant-trusty64
+<div class="highlight"><pre><span></span>vagrant package -base vagrant-trusty64
 vagnant box add -name trusty64 ./vagrant-trusty64.box
 </pre></div></div>
 	<hr>
@@ -179,6 +179,7 @@ vagnant box add -name trusty64 ./vagrant-trusty64.box
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
 							<li><a href="http://www.adamgarstang.co.uk/category/Linux.html">Linux (3)</a></li>
+							<li><a href="http://www.adamgarstang.co.uk/category/Windows.html">Windows (1)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">

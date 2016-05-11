@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>iPXE Booting Sysrescue Linux — This is not a blog by Adam Garstang</title>
+	<title>iPXE Booting Sysrescue Linux — Out of inodes</title>
 	<meta name="description" content="Title: iPXE Booting Sysrescue Linux; Date: 2014-06-24; Author: Adam Garstang">
 	<meta name="author" content="Adam Garstang">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,8 +20,8 @@
 <body>
 <div class="container">
 	<div class="page-header">
-		<h1><a href="http://www.adamgarstang.co.uk/">This is not a blog by Adam Garstang</a>
-			<br><small>A collection of my thoughts, notes, and ideas.</small></h1>	</div>
+		<h1><a href="http://www.adamgarstang.co.uk/">Out of inodes</a>
+			<br><small>This is not a blog by Adam Garstang.</small></h1>	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 <div class="article" itemscope itemtype="http://schema.org/BlogPosting">
@@ -68,21 +68,21 @@ It is simply a correlation of the information I gathered while searching online.
 <p>Lets assume DNS is working.</p>
 <h2>Packages</h2>
 <p>Install the necessary packages.</p>
-<div class="highlight"><pre>apt-get install -y isc-dhcp-server
+<div class="highlight"><pre><span></span>apt-get install -y isc-dhcp-server
 apt-get install -y tftpd-hpa apache2
 </pre></div>
 
 
 <h2>Fallback Image</h2>
 <p>Download the fallback iPXE image for legacy network cards.</p>
-<div class="highlight"><pre>wget http://boot.ipxe.org/undionly.kpxe -O /var/lib/tftpboot/undionly.kpxe
+<div class="highlight"><pre><span></span>wget http://boot.ipxe.org/undionly.kpxe -O /var/lib/tftpboot/undionly.kpxe
 </pre></div>
 
 
 <h2>Configure DHCP Server</h2>
 <p>Add the following to your dhcpd.conf file. You can either add it as to a
 subnet declaration of a specific hosts declaration.</p>
-<div class="highlight"><pre>  <span class="nt">if</span> <span class="nt">exists</span> <span class="nt">ipxe</span><span class="nc">.http</span> <span class="nt">and</span> <span class="nt">exists</span> <span class="nt">user-class</span> <span class="nt">and</span> <span class="nt">option</span> <span class="nt">user-class</span> <span class="o">=</span> <span class="s2">&quot;iPXE&quot;</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span>  <span class="nt">if</span> <span class="nt">exists</span> <span class="nt">ipxe</span><span class="nc">.http</span> <span class="nt">and</span> <span class="nt">exists</span> <span class="nt">user-class</span> <span class="nt">and</span> <span class="nt">option</span> <span class="nt">user-class</span> <span class="o">=</span> <span class="s2">&quot;iPXE&quot;</span> <span class="p">{</span>
     <span class="n">filename</span> <span class="s2">&quot;http://duke/boot.php&quot;</span><span class="p">;</span>
   <span class="p">}</span> <span class="nt">else</span> <span class="p">{</span>
     <span class="n">filename</span> <span class="s2">&quot;undionly.kpxe&quot;</span><span class="p">;</span>
@@ -95,7 +95,7 @@ subnet declaration of a specific hosts declaration.</p>
 This will provide menu for selecting your Sysrescue version and allow you
 to differentiate between the any other OS/options you chose to add.
 Content:</p>
-<div class="highlight"><pre><span class="c">#!ipxe</span>
+<div class="highlight"><pre><span></span><span class="ch">#!ipxe</span>
 
 menu
 item sysrescue64  Boot Linux SysRescue 64-bit
@@ -103,25 +103,25 @@ item sysrescue32  Boot Linux SysRescue 32-bit
 choose target <span class="o">&amp;&amp;</span> goto <span class="si">${</span><span class="nv">target</span><span class="si">}</span>
 
 :sysrescue64
-<span class="nb">echo </span>Booting Sysrescue
-<span class="nb">set </span>base-url http://duke/sysrescue
+<span class="nb">echo</span> Booting Sysrescue
+<span class="nb">set</span> base-url http://duke/sysrescue
 kernel <span class="si">${</span><span class="nv">base</span><span class="p">-url</span><span class="si">}</span>/rescue64 <span class="nv">scandelay</span><span class="o">=</span><span class="m">1</span> nomodeset <span class="nv">vga</span><span class="o">=</span><span class="m">791</span> <span class="nv">netboot</span><span class="o">=</span><span class="si">${</span><span class="nv">base</span><span class="p">-url</span><span class="si">}</span>/sysrcd.dat
 initrd <span class="si">${</span><span class="nv">base</span><span class="p">-url</span><span class="si">}</span>/initram.igz
 boot <span class="o">||</span>
-<span class="c"># If everything failed, give the user some options</span>
-<span class="nb">echo </span>Boot from <span class="si">${</span><span class="nv">base</span><span class="p">-url</span><span class="si">}</span> failed
+<span class="c1"># If everything failed, give the user some options</span>
+<span class="nb">echo</span> Boot from <span class="si">${</span><span class="nv">base</span><span class="p">-url</span><span class="si">}</span> failed
 prompt --key 0x197e --timeout <span class="m">2000</span> Press F12 to investigate <span class="o">||</span> <span class="nb">exit</span>
 shell
 <span class="nb">exit</span>
 
 :sysrescue32
-<span class="nb">echo </span>Booting Sysrescue
-<span class="nb">set </span>base-url http://duke/sysrescue
+<span class="nb">echo</span> Booting Sysrescue
+<span class="nb">set</span> base-url http://duke/sysrescue
 kernel <span class="si">${</span><span class="nv">base</span><span class="p">-url</span><span class="si">}</span>/rescue32 <span class="nv">scandelay</span><span class="o">=</span><span class="m">1</span> nomodeset <span class="nv">vga</span><span class="o">=</span><span class="m">791</span> <span class="nv">netboot</span><span class="o">=</span><span class="si">${</span><span class="nv">base</span><span class="p">-url</span><span class="si">}</span>/sysrcd.dat
 initrd <span class="si">${</span><span class="nv">base</span><span class="p">-url</span><span class="si">}</span>/initram.igz
 boot <span class="o">||</span>
-<span class="c"># If everything failed, give the user some options</span>
-<span class="nb">echo </span>Boot from <span class="si">${</span><span class="nv">base</span><span class="p">-url</span><span class="si">}</span> failed
+<span class="c1"># If everything failed, give the user some options</span>
+<span class="nb">echo</span> Boot from <span class="si">${</span><span class="nv">base</span><span class="p">-url</span><span class="si">}</span> failed
 prompt --key 0x197e --timeout <span class="m">2000</span> Press F12 to investigate <span class="o">||</span> <span class="nb">exit</span>
 shell
 <span class="nb">exit</span>
@@ -139,7 +139,7 @@ Copy the following files off:</p>
 <li>sysrcd.md5</li>
 </ul>
 <p>If you have the ISO you can mount it to extract the files as below.</p>
-<div class="highlight"><pre>mkdir /mnt/iso
+<div class="highlight"><pre><span></span>mkdir /mnt/iso
 mount -o loop sysrescue.iso /mnt/iso
 mkdir /var/www/sysrescue
 cp -r /mnt/iso/isolinux/initram.igz /var/www/html/sysrescue/
@@ -191,6 +191,7 @@ In the boot.php I set <code>vga=791</code> on modern servers this seems to get p
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
 							<li><a href="http://www.adamgarstang.co.uk/category/Linux.html">Linux (3)</a></li>
+							<li><a href="http://www.adamgarstang.co.uk/category/Windows.html">Windows (1)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">

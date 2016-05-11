@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>This is not a blog by Adam Garstang</title><link>http://www.adamgarstang.co.uk/</link><description>A collection of my thoughts, notes, and ideas.</description><atom:link href="http://www.adamgarstang.co.uk/feeds/adam-garstang.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 24 Sep 2014 19:30:00 +0100</lastBuildDate><item><title>Puppet Request Tracker 4 on Ubuntu Trusty</title><link>http://www.adamgarstang.co.uk/puppet-requesttracker.html</link><description>&lt;p&gt;&lt;a href="https://github.com/agarstang/puppet-requesttracker4"&gt;Basic Puppet module for deploying Request Tracker 4 to Ubuntu Trusty LTS.&lt;/a&gt;&lt;/p&gt;
+<rss version="2.0"><channel><title>Out of inodes</title><link>http://www.adamgarstang.co.uk/</link><description>This is not a blog by Adam Garstang.</description><lastBuildDate>Thu, 20 Nov 2014 22:00:00 +0000</lastBuildDate><item><title>Connect-Office365 Powershell Module</title><link>http://www.adamgarstang.co.uk/powershell-office365.html</link><description>&lt;p&gt;Connecting to Office365 can be a bit of a chore. This is a nice and quick module
+to get you connected to Microsoft Online and Exchange Online management.&lt;/p&gt;
+&lt;p&gt;You will need the &lt;a href="http://technet.microsoft.com/en-us/library/hh974317.aspx"&gt;Microsoft Online Powershell Modules&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Then download Connect-Office365.psm1 from &lt;a href="https://github.com/agarstang/Connect-Office365"&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Powershell Modules&lt;/h2&gt;
+&lt;p&gt;To make the command always available you need to store the module somewhere Powershell will know to load it from.&lt;/p&gt;
+&lt;p&gt;These locations can be found on the PSModulePath Environment Variable (&lt;code&gt;$env:PSModulePath&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;I am going to store it in my user modules directory &lt;code&gt;Documents\WindowsPowerShell\Modules&lt;/code&gt;; 
+if this path doesn't exist then create it.&lt;/p&gt;
+&lt;p&gt;In order for the module to load it needs to be a &lt;a href="http://msdn.microsoft.com/en-us/library/dd878350%28v=vs.85%29.aspx"&gt;well formed module&lt;/a&gt;.
+It needs to be stored in a directory of a name (usually the module name) and at least one Powershell file with the same name.&lt;/p&gt;
+&lt;p&gt;In this instance: &lt;code&gt;Documents\WindowsPowerShell\Modules\Connect-Office365\Connect-Office365.psm1&lt;/code&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Thu, 20 Nov 2014 22:00:00 +0000</pubDate><guid isPermaLink="false">tag:www.adamgarstang.co.uk,2014-11-20:powershell-office365.html</guid><category>Powershell</category><category>Office365</category></item><item><title>Puppet Request Tracker 4 on Ubuntu Trusty</title><link>http://www.adamgarstang.co.uk/puppet-requesttracker.html</link><description>&lt;p&gt;&lt;a href="https://github.com/agarstang/puppet-requesttracker4"&gt;Basic Puppet module for deploying Request Tracker 4 to Ubuntu Trusty LTS.&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This is not designed to be very neat/friendly. Following the philosophy that as much
 of our infrastructure should be quickly re-deployable I required a way to quickly deploy
 our latest RT version and exim config to our server.&lt;/p&gt;
@@ -13,7 +24,7 @@ included - perhaps speak to your db admin).&lt;/p&gt;
 &lt;p&gt;I am manually installing the majority of dependencies as CPAN was not compiling
 many of them on Trusty. With the majority of them available from packages I 
 created this list and installed the remainder using the then functioning makefile.&lt;/p&gt;
-&lt;p&gt;Replace SSL certs in apache template with your own.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Wed, 24 Sep 2014 19:30:00 +0100</pubDate><guid>tag:www.adamgarstang.co.uk,2014-09-24:puppet-requesttracker.html</guid><category>Linux</category><category>Ubuntu</category><category>Puppet</category><category>RT</category></item><item><title>Vagrant Ubuntu Box Build</title><link>http://www.adamgarstang.co.uk/vagrant-ubuntu.html</link><description>&lt;p&gt;My notes on how to build a base Vagrant box.
+&lt;p&gt;Replace SSL certs in apache template with your own.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Wed, 24 Sep 2014 19:30:00 +0100</pubDate><guid isPermaLink="false">tag:www.adamgarstang.co.uk,2014-09-24:puppet-requesttracker.html</guid><category>Linux</category><category>Ubuntu</category><category>Puppet</category><category>RT</category></item><item><title>Vagrant Ubuntu Box Build</title><link>http://www.adamgarstang.co.uk/vagrant-ubuntu.html</link><description>&lt;p&gt;My notes on how to build a base Vagrant box.
 I created these when I needed a box based on a Ubuntu Trusty dev build.&lt;/p&gt;
 &lt;p&gt;You should have &lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt; and 
 &lt;a href="http://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt; installed and working.&lt;/p&gt;
@@ -53,13 +64,13 @@ with &lt;code&gt;sudo -i&lt;/code&gt;.&lt;/p&gt;
 &lt;h3&gt;Sudoers&lt;/h3&gt;
 &lt;p&gt;Create and admin group to contain users who can sudo without authentication;
 This will include the "vagrant" user.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;groupadd admin
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;groupadd admin
 usermod -G admin vagrant
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Edit the sudoers file with &lt;code&gt;visudo&lt;/code&gt; and ensure it has the following set.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Defaults&lt;/span&gt; &lt;span class="n"&gt;env_keep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;SSH_AUTH_SOCK&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Defaults&lt;/span&gt; &lt;span class="n"&gt;env_keep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;SSH_AUTH_SOCK&amp;quot;&lt;/span&gt;
 &lt;span class="nf"&gt;%admin&lt;/span&gt; &lt;span class="n"&gt;ALL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nl"&gt;NOPASSWD&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ALL&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -67,7 +78,7 @@ usermod -G admin vagrant
 &lt;h3&gt;Vagrant SSH Key&lt;/h3&gt;
 &lt;p&gt;Download and install Vagrant's public key into
 the "vagrant" users authorized_keys.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;mkdir -p /home/vagrant/.ssh
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mkdir -p /home/vagrant/.ssh
 chmod &lt;span class="m"&gt;0700&lt;/span&gt; /home/vagrant/.ssh
 wget --no-check-certificate &lt;span class="se"&gt;\&lt;/span&gt;
     https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub &lt;span class="se"&gt;\&lt;/span&gt;
@@ -78,7 +89,7 @@ chown -R vagrant /home/vagrant/.ssh
 
 
 &lt;p&gt;Edit /etc/ssh/sshd_config and ensure it contains the following.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;Port 22
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Port 22
 PubKeyAuthentication yes
 AuthorizedKeysFile %h/.ssh/authorized_keys
 PermitEmptyPasswords no
@@ -88,13 +99,13 @@ PasswordAuthentication no
 
 &lt;h3&gt;Base Packages&lt;/h3&gt;
 &lt;p&gt;Now we need to install the base packages. Anything required for provisioning.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;apt-get install -y ruby rubygems puppet chef
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt-get install -y ruby rubygems puppet chef
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;VirtualBox Guest Additions&lt;/h3&gt;
 &lt;p&gt;Install the prerequisites.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;apt-get install -y gcc build-essential linux-headers-server
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt-get install -y gcc build-essential linux-headers-server
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -105,9 +116,9 @@ it down for packaging. I had problems with Guest Additions if I immediately
 shutdown and packaged the box using Vagrant.&lt;/p&gt;
 &lt;h2&gt;Package With Vagrant&lt;/h2&gt;
 &lt;p&gt;Now we create the vagrant &lt;code&gt;.box&lt;/code&gt; file with Vagrant.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;vagrant package -base vagrant-trusty64
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;vagrant package -base vagrant-trusty64
 vagnant box add -name trusty64 ./vagrant-trusty64.box
-&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Thu, 31 Jul 2014 17:10:00 +0100</pubDate><guid>tag:www.adamgarstang.co.uk,2014-06-27:vagrant-ubuntu.html</guid><category>Linux</category><category>Ubuntu</category><category>Vagrant</category></item><item><title>iPXE Booting Sysrescue Linux</title><link>http://www.adamgarstang.co.uk/ipxe-sysrescue.html</link><description>&lt;p&gt;This is a brief walkthrough on how to iPXE netboot Sysrescue Linux over HTTP.
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Thu, 31 Jul 2014 17:10:00 +0100</pubDate><guid isPermaLink="false">tag:www.adamgarstang.co.uk,2014-06-27:vagrant-ubuntu.html</guid><category>Linux</category><category>Ubuntu</category><category>Vagrant</category></item><item><title>iPXE Booting Sysrescue Linux</title><link>http://www.adamgarstang.co.uk/ipxe-sysrescue.html</link><description>&lt;p&gt;This is a brief walkthrough on how to iPXE netboot Sysrescue Linux over HTTP.
 It is simply a correlation of the information I gathered while searching online.&lt;/p&gt;
 &lt;p&gt;In this guide a single Ubuntu 14.04 (hostname: duke) box will have the following roles:&lt;/p&gt;
 &lt;ul&gt;
@@ -118,21 +129,21 @@ It is simply a correlation of the information I gathered while searching online.
 &lt;p&gt;Lets assume DNS is working.&lt;/p&gt;
 &lt;h2&gt;Packages&lt;/h2&gt;
 &lt;p&gt;Install the necessary packages.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;apt-get install -y isc-dhcp-server
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt-get install -y isc-dhcp-server
 apt-get install -y tftpd-hpa apache2
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Fallback Image&lt;/h2&gt;
 &lt;p&gt;Download the fallback iPXE image for legacy network cards.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;wget http://boot.ipxe.org/undionly.kpxe -O /var/lib/tftpboot/undionly.kpxe
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;wget http://boot.ipxe.org/undionly.kpxe -O /var/lib/tftpboot/undionly.kpxe
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Configure DHCP Server&lt;/h2&gt;
 &lt;p&gt;Add the following to your dhcpd.conf file. You can either add it as to a
 subnet declaration of a specific hosts declaration.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;  &lt;span class="nt"&gt;if&lt;/span&gt; &lt;span class="nt"&gt;exists&lt;/span&gt; &lt;span class="nt"&gt;ipxe&lt;/span&gt;&lt;span class="nc"&gt;.http&lt;/span&gt; &lt;span class="nt"&gt;and&lt;/span&gt; &lt;span class="nt"&gt;exists&lt;/span&gt; &lt;span class="nt"&gt;user-class&lt;/span&gt; &lt;span class="nt"&gt;and&lt;/span&gt; &lt;span class="nt"&gt;option&lt;/span&gt; &lt;span class="nt"&gt;user-class&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;iPXE&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class="nt"&gt;if&lt;/span&gt; &lt;span class="nt"&gt;exists&lt;/span&gt; &lt;span class="nt"&gt;ipxe&lt;/span&gt;&lt;span class="nc"&gt;.http&lt;/span&gt; &lt;span class="nt"&gt;and&lt;/span&gt; &lt;span class="nt"&gt;exists&lt;/span&gt; &lt;span class="nt"&gt;user-class&lt;/span&gt; &lt;span class="nt"&gt;and&lt;/span&gt; &lt;span class="nt"&gt;option&lt;/span&gt; &lt;span class="nt"&gt;user-class&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;iPXE&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;filename&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://duke/boot.php&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
   &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="nt"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;filename&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;undionly.kpxe&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
@@ -145,7 +156,7 @@ subnet declaration of a specific hosts declaration.&lt;/p&gt;
 This will provide menu for selecting your Sysrescue version and allow you
 to differentiate between the any other OS/options you chose to add.
 Content:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!ipxe&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!ipxe&lt;/span&gt;
 
 menu
 item sysrescue64  Boot Linux SysRescue 64-bit
@@ -153,25 +164,25 @@ item sysrescue32  Boot Linux SysRescue 32-bit
 choose target &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; goto &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;target&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
 
 :sysrescue64
-&lt;span class="nb"&gt;echo &lt;/span&gt;Booting Sysrescue
-&lt;span class="nb"&gt;set &lt;/span&gt;base-url http://duke/sysrescue
+&lt;span class="nb"&gt;echo&lt;/span&gt; Booting Sysrescue
+&lt;span class="nb"&gt;set&lt;/span&gt; base-url http://duke/sysrescue
 kernel &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/rescue64 &lt;span class="nv"&gt;scandelay&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; nomodeset &lt;span class="nv"&gt;vga&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;791&lt;/span&gt; &lt;span class="nv"&gt;netboot&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/sysrcd.dat
 initrd &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/initram.igz
 boot &lt;span class="o"&gt;||&lt;/span&gt;
-&lt;span class="c"&gt;# If everything failed, give the user some options&lt;/span&gt;
-&lt;span class="nb"&gt;echo &lt;/span&gt;Boot from &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; failed
+&lt;span class="c1"&gt;# If everything failed, give the user some options&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; Boot from &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; failed
 prompt --key 0x197e --timeout &lt;span class="m"&gt;2000&lt;/span&gt; Press F12 to investigate &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt;
 shell
 &lt;span class="nb"&gt;exit&lt;/span&gt;
 
 :sysrescue32
-&lt;span class="nb"&gt;echo &lt;/span&gt;Booting Sysrescue
-&lt;span class="nb"&gt;set &lt;/span&gt;base-url http://duke/sysrescue
+&lt;span class="nb"&gt;echo&lt;/span&gt; Booting Sysrescue
+&lt;span class="nb"&gt;set&lt;/span&gt; base-url http://duke/sysrescue
 kernel &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/rescue32 &lt;span class="nv"&gt;scandelay&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; nomodeset &lt;span class="nv"&gt;vga&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;791&lt;/span&gt; &lt;span class="nv"&gt;netboot&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/sysrcd.dat
 initrd &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/initram.igz
 boot &lt;span class="o"&gt;||&lt;/span&gt;
-&lt;span class="c"&gt;# If everything failed, give the user some options&lt;/span&gt;
-&lt;span class="nb"&gt;echo &lt;/span&gt;Boot from &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; failed
+&lt;span class="c1"&gt;# If everything failed, give the user some options&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; Boot from &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;base&lt;/span&gt;&lt;span class="p"&gt;-url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; failed
 prompt --key 0x197e --timeout &lt;span class="m"&gt;2000&lt;/span&gt; Press F12 to investigate &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt;
 shell
 &lt;span class="nb"&gt;exit&lt;/span&gt;
@@ -189,7 +200,7 @@ Copy the following files off:&lt;/p&gt;
 &lt;li&gt;sysrcd.md5&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;If you have the ISO you can mount it to extract the files as below.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;mkdir /mnt/iso
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mkdir /mnt/iso
 mount -o loop sysrescue.iso /mnt/iso
 mkdir /var/www/sysrescue
 cp -r /mnt/iso/isolinux/initram.igz /var/www/html/sysrescue/
@@ -207,4 +218,4 @@ You will get to a menu giving you the option to boot either 32-bit or 64-bit Sys
 &lt;h2&gt;Appendix&lt;/h2&gt;
 &lt;p&gt;Make sure you grab the latest version of Sysrescue, older version may not have the NIC
 drivers required to netboot.
-In the boot.php I set &lt;code&gt;vga=791&lt;/code&gt; on modern servers this seems to get prevent GFX issues.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Tue, 24 Jun 2014 19:45:00 +0100</pubDate><guid>tag:www.adamgarstang.co.uk,2014-06-24:ipxe-sysrescue.html</guid><category>Linux</category><category>iPXE</category><category>netboot</category><category>Sysrescue</category><category>Ubuntu</category></item></channel></rss>
+In the boot.php I set &lt;code&gt;vga=791&lt;/code&gt; on modern servers this seems to get prevent GFX issues.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adam Garstang</dc:creator><pubDate>Tue, 24 Jun 2014 19:45:00 +0100</pubDate><guid isPermaLink="false">tag:www.adamgarstang.co.uk,2014-06-24:ipxe-sysrescue.html</guid><category>Linux</category><category>iPXE</category><category>netboot</category><category>Sysrescue</category><category>Ubuntu</category></item></channel></rss>
