@@ -1,54 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Connect-Office365 Powershell Module — Out of inodes</title>
-	<meta name="description" content="Title: Connect-Office365 Powershell Module; Date: 2014-11-20; Author: Adam Garstang">
-	<meta name="author" content="Adam Garstang">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-	<!--[if lt IE 9]>
-		<script src="http://www.adamgarstang.co.uk/theme/html5.js"></script>
-		<![endif]-->
-	<link href="http://www.adamgarstang.co.uk/theme/css/ipython.css" rel="stylesheet">
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
-	<link href="http://www.adamgarstang.co.uk/theme/css/local.css" rel="stylesheet">
-	<link href="http://www.adamgarstang.co.uk/theme/css/pygments.css" rel="stylesheet">
+        <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Out of inodes | Connect-Office365 Powershell Module</title>
+    <link rel="shortcut icon" type="image/png" href="http://www.adamgarstang.co.uk/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.adamgarstang.co.uk/favicon.ico">
+    <link href="http://www.adamgarstang.co.uk/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Out of inodes Full Atom Feed" />
+    <link href="http://www.adamgarstang.co.uk/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Out of inodes Full RSS Feed" />
+    <link rel="stylesheet" href="http://www.adamgarstang.co.uk/theme/css/screen.css" type="text/css" />
+    <link rel="stylesheet" href="http://www.adamgarstang.co.uk/theme/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://www.adamgarstang.co.uk/theme/css/print.css" type="text/css" media="print" />
+    <meta name="generator" content="Pelican" />
+
+    <meta name="keywords" content="Powershell,Office365" />
 </head>
 <body>
-<div class="container">
-	<div class="page-header">
-		<h1><a href="http://www.adamgarstang.co.uk/">Out of inodes</a>
-			<br><small>This is not a blog by Adam Garstang.</small></h1>	</div>
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="text-center article-header">
-		<h1 itemprop="name headline" class="article-title">Connect-Office365 Powershell Module</h1>
-		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<h4 itemprop="name">Adam Garstang</h4>
-		</span>
-		<time datetime="2014-11-20T22:00:00+00:00" itemprop="datePublished">Thu 20 November 2014</time>
-	</div>
-	<div>
-		Category:
-		<span itemprop="articleSection">
-			<a href="http://www.adamgarstang.co.uk/category/windows.html" rel="category">Windows</a>
-		</span>
-	</div>
- 
-	<div>
-		Tags:
-		<span itemprop="keywords">
-			<a href="http://www.adamgarstang.co.uk/tag/powershell.html" rel="tag">Powershell</a>
-		</span>
-		<span itemprop="keywords">
-			<a href="http://www.adamgarstang.co.uk/tag/office365.html" rel="tag">Office365</a>
-		</span>
-	</div>
-	<div itemprop="articleBody" class="article-body"><p>Connecting to Office365 can be a bit of a chore. This is a nice and quick module
+    <header>
+        <nav>
+            <ul>
+                <li><a href="http://www.adamgarstang.co.uk">Home</a></li>
+                <li><a href="http://www.adamgarstang.co.uk/pages/about-me.html">About Me</a></li>
+                <li><a href="http://www.adamgarstang.co.uk/pages/contact-me.html">Contact Me</a></li>
+            </ul>
+        </nav>
+        <div class="header_box">
+            <h1><a href="http://www.adamgarstang.co.uk">Out of inodes</a></h1>
+            <h2>This is not a blog by Adam Garstang.</h2>
+        </div>
+    </header>
+    <div id="wrapper">
+        <div id="content">            <h4 class="date">Nov 20, 2014</h4>
+
+            <article class="post">
+                <h2 class="title">
+                    <a href="http://www.adamgarstang.co.uk/powershell-office365.html" rel="bookmark" title="Permanent Link to &quot;Connect-Office365 Powershell Module&quot;">Connect-Office365 Powershell Module</a>
+                </h2>
+
+                <p>Connecting to Office365 can be a bit of a chore. This is a nice and quick module
 to get you connected to Microsoft Online and Exchange Online management.</p>
 <p>You will need the <a href="http://technet.microsoft.com/en-us/library/hh974317.aspx">Microsoft Online Powershell Modules</a>.</p>
 <p>Then download Connect-Office365.psm1 from <a href="https://github.com/agarstang/Connect-Office365">here</a></p>
@@ -59,80 +48,30 @@ to get you connected to Microsoft Online and Exchange Online management.</p>
 if this path doesn't exist then create it.</p>
 <p>In order for the module to load it needs to be a <a href="http://msdn.microsoft.com/en-us/library/dd878350%28v=vs.85%29.aspx">well formed module</a>.
 It needs to be stored in a directory of a name (usually the module name) and at least one Powershell file with the same name.</p>
-<p>In this instance: <code>Documents\WindowsPowerShell\Modules\Connect-Office365\Connect-Office365.psm1</code></p></div>
-	<hr>
-	<h2>Comments</h2>
-</div>
-		</div>
-	</div> 	<!-- <hr> -->
-</div> <!-- /container -->
-<footer class="aw-footer bg-danger">
-	<div class="container"> <!-- footer -->
-		<div class="row">
-			<div class="col-md-10 col-md-offset-1">
-				<div class="row">
-					<div class="col-md-3">
-						<h4>Navigation</h4>
-						<ul class="list-unstyled my-list-style">
-							<li><a href="http://www.adamgarstang.co.uk">Homepage</a></li>
-							<li><a href="http://www.adamgarstang.co.uk/pages/about-me.html"><i class="fa fa-About Me "></i>About Me</a></li>
-							<li><a href="http://www.adamgarstang.co.uk/pages/contact-me.html"><i class="fa fa-Contact Me "></i>Contact Me</a></li>
-							<li><a href="http://www.adamgarstang.co.uk/feeds/all.atom.xml" type="application/atom+xml"><i class="fa fa-rss "></i> atom</a></li>
-							<li><a href="http://www.adamgarstang.co.uk/feeds/all.rss.xml" type="application/rss+xml"><i class="fa fa-rss "></i> rss</a></li>
-						</ul>
-					</div>
-					<div class="col-md-3">
-						<h4>Author</h4>
-						<ul class="list-unstyled my-list-style">
-                            <li><a href="https://www.linkedin.com/in/adamgarstang">LinkedIn</a></li>
-                            <li><a href="https://github.com/agarstang">github</a></li>
-                            <li><a href="https://twitter.com/outofinodes">Twitter</a></li>
-						</ul>
-					</div>
-					<div class="col-md-3">
-						<h4>Categories</h4>
-						<ul class="list-unstyled my-list-style">
-							<li><a href="http://www.adamgarstang.co.uk/category/Linux.html">Linux (3)</a></li>
-							<li><a href="http://www.adamgarstang.co.uk/category/Windows.html">Windows (1)</a></li>
-						</ul>
-					</div>
-					<div class="col-md-3">
-						<h4>Links</h4>
-						<ul class="list-unstyled my-list-style">
-                            <li><a href="http://www.8networks.co.uk">8Networks</a></li>
-                            <li><a href="http://www.bondystechtips.com/">Nick Bond's Blog</a></li>
-                            <li><a href="http://www.catb.org/esr/writings/taoup/html/">TAOUP</a></li>
-                            <li><a href="http://12factor.net/">The Twelve Factors</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</footer>
-<div class="container">
-	<div class="row">
-		<div class="col-md-12 text-center center-block aw-bottom">
-			<p>&copy; Adam Garstang 2014</p>
-			<p>Powered by Pelican</p>
-		</div>
-	</div>
-</div>
-<!-- JavaScript -->
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-jQuery(document).ready(function($) {
-	$("div.collapseheader").click(function () {
-		$header = $(this).children("span").first();
-		$codearea = $(this).children(".input_area");
-		$codearea.slideToggle(500, function () {
-			$header.text(function () {
-				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
-			});
-		});
-	});
-});
-</script>
+<p>In this instance: <code>Documents\WindowsPowerShell\Modules\Connect-Office365\Connect-Office365.psm1</code></p>
+                <div class="clear"></div>
+
+                <div class="info">
+                    <a href="http://www.adamgarstang.co.uk/powershell-office365.html">posted at 22:00</a>
+                    &nbsp;&middot;&nbsp;<a href="http://www.adamgarstang.co.uk/category/windows.html" rel="tag">Windows</a>
+                    &nbsp;&middot;
+                    &nbsp;<a href="http://www.adamgarstang.co.uk/tag/powershell.html" class="tags">Powershell</a>
+                    &nbsp;<a href="http://www.adamgarstang.co.uk/tag/office365.html" class="tags">Office365</a>
+                </div>
+            </article>
+            <div class="clear"></div>
+            <footer>
+                <p>
+                <a href="https://github.com/jody-frankowski/blue-penguin">Blue Penguin</a> Theme
+                &middot;
+                Powered by <a href="http://getpelican.com">Pelican</a>
+                &middot;
+                <a href="http://www.adamgarstang.co.uk/feeds/all.atom.xml" rel="alternate">Atom Feed</a>
+                &middot;
+                <a href="http://www.adamgarstang.co.uk/feeds/all.rss.xml" rel="alternate">Rss Feed</a>
+            </footer>
+        </div>
+        <div class="clear"></div>
+    </div>
 </body>
 </html>
