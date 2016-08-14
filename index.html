@@ -47,7 +47,7 @@ So I installed WSL (instructions below), got to the bash prompt and SSH'd to a h
 <p>Again, this worked perfectly (another <em>wooo</em>). Feeling pretty much like I'm on an Ubuntu VM at this point.</p>
 <p>Excellent, now I can SSH to all my hosts using my SSH keys. Now I just need to run <code>screen</code> so I can hop between them... <strong><em>error</em></strong>. <a href="https://github.com/Microsoft/BashOnWindows/issues/39">It's known</a> that screen does not currently work in WSL. <strong>However</strong>, this isn't much of a problem as each Window is part of the same session; therefore I can simply use multiple windows and SSH from each when utilizing the same ssh-agent.  </p>
 <p>So the last thing I'd like, to complete the workflow improvements I'm looking for, is SSH tunnels. This works, but not fully. <code>netstat</code> shows nothing listening inside my other Bash window (no connections at all actually), however I can see the port listening in Windows. I tested and I can connect over the tunnel from Windows... using PuTTY :).</p>
-<p>The SSH tunnel issue isn't going to stop me using this as my primary SSH client on Winodws and I'm sure the have Bash will help working on cross platform OSS projects. For my day-to-day Windows scripting I will continue using Powershell.</p>
+<p>The SSH tunnel issue isn't going to stop me using this as my primary SSH client on Winodws and I'm sure having Bash natively will help working on OSS projects on Windows. For my day-to-day Windows scripting I will continue using Powershell.</p>
 <h2>Installing</h2>
 <ol>
 <li>Go to Start &gt; Settings &gt; Update &amp; Security &gt; For Developers, enable Developer Mode and restart.</li>
