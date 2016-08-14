@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Out of inodes | articles tagged "Windows"</title>
+    <link rel="shortcut icon" type="image/png" href="http://www.adamgarstang.co.uk/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.adamgarstang.co.uk/favicon.ico">
+    <link href="http://www.adamgarstang.co.uk/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Out of inodes Full Atom Feed" />
+    <link href="http://www.adamgarstang.co.uk/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Out of inodes Full RSS Feed" />
+    <link rel="stylesheet" href="http://www.adamgarstang.co.uk/theme/css/screen.css" type="text/css" />
+    <link rel="stylesheet" href="http://www.adamgarstang.co.uk/theme/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://www.adamgarstang.co.uk/theme/css/print.css" type="text/css" media="print" />
+    <meta name="generator" content="Pelican" />
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li class="ephemeral selected"><a href="http://www.adamgarstang.co.uk/tag/windows.html">Windows</a></li>
+                <li><a href="http://www.adamgarstang.co.uk">Home</a></li>
+                <li><a href="http://www.adamgarstang.co.uk/pages/about-me.html">About Me</a></li>
+                <li><a href="http://www.adamgarstang.co.uk/pages/contact-me.html">Contact Me</a></li>
+            </ul>
+        </nav>
+        <div class="header_box">
+            <h1><a href="http://www.adamgarstang.co.uk">Out of inodes</a></h1>
+            <h2>This is not a blog by Adam Garstang.</h2>
+        </div>
+    </header>
+    <div id="wrapper">
+        <div id="content">            <h4 class="date">Nov 20, 2014</h4>
+
+            <article class="post">
+                <h2 class="title">
+                    <a href="http://www.adamgarstang.co.uk/win10-wsl.html" rel="bookmark" title="Permanent Link to &quot;Windows Subsystem for Linux (WSL)&quot;">Windows Subsystem for Linux (WSL)</a>
+                </h2>
+
+                <p>Recently I have been playing around with the Windows Subsystem for Linux, Microsoft's attempt to bring Bash (and in this implementation, most of Ubuntu) to the Windows world.  </p>
+<p>Running Bash on Windows was never a major desire of mine (despite being a long time Linux user and admin). Powershell has brought, well, <em>powerful</em> scripting to Windows and I have loved it since my first major projects using it. Keeping Linux tooling to my Linux VM just feels cleaner.  </p>
+<p>The curiosity that had me install WSL was simply SSH. SSH'ing from Windows is pretty terrible, PuTTY (and it's surrounding tools) are solid but it's just not as friendly as native SSH.<br />
+So I installed WSL (instructions below), got to the bash prompt and SSH'd to a host (<em>wooo</em>).  </p>
+<p>The next thing I attempted was getting the running ssh-agent.</p>
+<div class="highlight"><pre><span></span>eval `ssh-agent -s`
+</pre></div>
+
+
+<p>Again, this worked perfectly (another <em>wooo</em>). Feeling pretty much like I'm on an Ubuntu VM at this point.</p>
+<p>Excellent, now I can SSH to all my hosts using my SSH keys. Now I just need to run <code>screen</code> so I can hop between them... <strong><em>error</em></strong>. <a href="https://github.com/Microsoft/BashOnWindows/issues/39">It's known</a> that screen does not currently work in WSL. <strong>However</strong>, this isn't much of a problem as each Window is part of the same session; therefore I can simply use multiple windows and SSH from each when utilizing the same ssh-agent.  </p>
+<p>So the last thing I'd like, to complete the workflow improvements I'm looking for, is SSH tunnels. This works, but not fully. <code>netstat</code> shows nothing listening inside my other Bash window (no connections at all actually), however I can see the port listening in Windows. I tested and I can connect over the tunnel from Windows... using PuTTY :).</p>
+<p>The SSH tunnel issue isn't going to stop me using this as my primary SSH client on Winodws and I'm sure the have Bash will help working on cross platform OSS projects. For my day-to-day Windows scripting I will continue using Powershell.</p>
+<h2>Installing</h2>
+<ol>
+<li>Go to Start &gt; Settings &gt; Update &amp; Security &gt; For Developers, enable Developer Mode and restart.</li>
+<li>Go to Start &gt; Turn Windows Feature on or off, tick "Winodws Subsystem for Linux (Beta)" and click Ok.</li>
+<li>Restart.</li>
+<li>Right click on the Start button and select "Run", type "bash" and click Ok. This will download and install the Ubuntu installation that powers Bash for Windows.</li>
+<li>Close the Window. At this point "Bash on Ubuntu on Winodws" should exist in your Start Menu, run it.</li>
+<li>Once at the Bash prompt run <code>sudo apt update</code> &amp; <code>sudo apt upgrade</code></li>
+</ol>
+                <div class="clear"></div>
+
+                <div class="info">
+                    <a href="http://www.adamgarstang.co.uk/win10-wsl.html">posted at 22:00</a>
+                    &nbsp;&middot;&nbsp;<a href="http://www.adamgarstang.co.uk/category/windows.html" rel="tag">Windows</a>
+                    &nbsp;&middot;
+                    &nbsp;<a href="http://www.adamgarstang.co.uk/tag/windows.html" class="tags selected">Windows</a>
+                    &nbsp;<a href="http://www.adamgarstang.co.uk/tag/linux.html" class="tags">Linux</a>
+                    &nbsp;<a href="http://www.adamgarstang.co.uk/tag/ubuntu.html" class="tags">Ubuntu</a>
+                </div>
+		<a href="http://www.adamgarstang.co.uk/win10-wsl.html#disqus_thread">Click to read and post comments</a>
+            </article>
+
+            <div class="clear"></div>
+            <footer>
+                <p>
+                <a href="https://github.com/jody-frankowski/blue-penguin">Blue Penguin</a> Theme
+                &middot;
+                Powered by <a href="http://getpelican.com">Pelican</a>
+                &middot;
+                <a href="http://www.adamgarstang.co.uk/feeds/all.atom.xml" rel="alternate">Atom Feed</a>
+                &middot;
+                <a href="http://www.adamgarstang.co.uk/feeds/all.rss.xml" rel="alternate">Rss Feed</a>
+            </footer>
+        </div>
+        <div class="clear"></div>
+    </div>
+</body>
+</html>
