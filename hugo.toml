@@ -1,0 +1,44 @@
+baseURL = "https://www.outofinodes.com/"
+locale = "en-GB"
+title = "Out Of Inodes"
+theme = "PaperMod"
+
+[params]
+  description = "This is not a blog by Adam"
+  keywords = ["AWS", "cloud", "devops", "security", "SRE"]
+  defaultTheme = "light"
+  disableThemeToggle = true
+  ShowReadingTime = false
+  ShowShareButtons = false
+  ShowPostNavLinks = false
+  ShowBreadCrumbs = false
+  ShowCodeCopyButtons = true
+
+  [params.homeInfoParams]
+    Title = "This is not a blog by Adam"
+    Content = """
+I'm an [AWS Solutions Architect](https://www.youracclaim.com/badges/cb43e4c2-c9c7-426f-8e17-683fc67a8233/public_url) & Lead Site Reliability Engineer.
+
+You can reach out to me on [LinkedIn](https://uk.linkedin.com/in/adamgarstang), or follow me on [Bluesky](https://bsky.app/profile/outofinodes.com).
+
+---
+
+> *To do the Unix philosophy right, you have to be loyal to excellence. You have to believe that software design is a craft worth all the intelligence, creativity, and passion you can muster. Otherwise you won't look past the easy, stereotyped ways of approaching design and implementation; you'll rush into coding when you should be thinking. You'll carelessly complicate when you should be relentlessly simplifying — and then you'll wonder why your code bloats and debugging is so hard.*
+>
+> *— [The Art Of Unix Programming](http://www.catb.org/~esr/writings/taoup/html/)*
+"""
+
+  [[params.socialIcons]]
+    name = "linkedin"
+    url = "https://uk.linkedin.com/in/adamgarstang"
+
+  [[params.socialIcons]]
+    name = "bluesky"
+    url = "https://bsky.app/profile/outofinodes.com"
+
+[menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 10
