@@ -1,4 +1,4 @@
-baseURL = "https://www.outofinodes.com/"
+baseURL = "https://outofinodes.com/"
 locale = "en-GB"
 title = "Out Of Inodes"
 theme = "PaperMod"
